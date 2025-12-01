@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カウンセリングシート</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        /* --- 基本設定（プルメリアゴルフ風デザイン） --- */
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #3e2b20; /* サイトフッターのダークブラウン */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 20px;
+            padding-bottom: 40px;
+            color: #4a3b32;
+        }
+
+        .container {
+            background-color: #fdfdfa; /* 明るいクリーム色 */
+            border-radius: 12px;
+            border: 1px solid #d4af37; /* ゴールド枠 */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 600px;
+            padding: 30px 25px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* --- 見出し --- */
+        h1 {
+            background: linear-gradient(135deg, #c5a059, #f3d34b, #c5a059); /* ゴールドグラデーション */
+            color: #3e2b20;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            margin: -30px -25px 30px -25px;
+            font-size: 24px;
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 700;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            letter-spacing: 1px;
+        }
+
+        h1::before, h1::after {
+            content: '✿';
+            color: #fff;
+            margin: 0 10px;
+            font-size: 0.8em;
+            vertical-align: middle;
+        }
+
+        /* --- ラベルと必須マーク --- */
+        .label {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #5d4037;
+            border-left: 5px solid #d4af37;
+            padding-left: 10px;
+        }
+
+        .required-badge {
+            background-color: #d32f2f;
+            color: white;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .optional-badge {
+            background-color: #8d6e63;
+            color: white;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        /* --- 入力フォーム --- */
+        input[type="text"],
+        input[type="tel"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: all 0.3s;
+            background-color: #fff;
+            font-family: inherit;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #d4af37;
+            background-color: #fffff8;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* --- 選択ボタン群 --- */
+        .selection-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .selection-group button {
+            flex: 1 1 30%;
+            padding: 12px 5px;
+            border: 1px solid #d4af37;
+            border-radius: 6px;
+            background-color: #fff;
+            color: #5d4037;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        /* 2択ボタン（利き手など） */
+        .binary-group button {
+            flex: 1 1 45%;
+        }
+
+        .selection-group button:hover {
+            background-color: #fff8e1;
+        }
+
+        .selection-group button.active {
+            background-color: #d4af37;
+            color: #fff;
+            border-color: #d4af37;
+            font-weight: bold;
+            transform: scale(1.02);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* --- 送信ボタン --- */
+        .submit-button {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(to bottom, #2ecc71, #218c54); /* 鮮やかなグリーン */
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 40px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 0 #1e6e42, 0 5px 10px rgba(0,0,0,0.2);
+        }
+
+        .submit-button:hover {
+            background: linear-gradient(to bottom, #35d679, #27a060);
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #1e6e42, 0 3px 6px rgba(0,0,0,0.2);
+        }
+
+        .submit-button:active {
+            transform: translateY(4px);
+            box-shadow: none;
+        }
+
+        .info-text {
+            font-size: 14px;
+            color: #5d4037;
+            background-color: #f9f2e7;
+            padding: 15px;
+            border-left: 4px solid #d4af37;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                padding: 20px 15px;
+            }
+            .selection-group button {
+                flex: 1 1 45%;
+            }
+            h1 {
+                font-size: 20px;
+                margin: -20px -15px 25px -15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>カウンセリングシート</h1>
+        <div class="info-text">
+            この度はご来店ありがとうございます。<br>
+            お客様に最適なプランや練習環境をご提案するため、簡単なアンケートにご協力をお願いいたします。<br>
+            入力後、一番下の【送信】ボタンを押してください。
+        </div>
+
+        <div class="label">お名前<span class="required-badge">必須</span></div>
+        <input type="text" id="name" placeholder="例：ゴルフ 太郎">
+
+        <div class="label">お電話番号<span class="required-badge">必須</span></div>
+        <input type="tel" id="phone" placeholder="例：090-1234-5678">
+
+        <div class="label">利き手<span class="required-badge">必須</span></div>
+        <div class="selection-group binary-group" id="hand-group">
+            <button type="button" onclick="selectSingle(this, 'hand-group')">右打ち</button>
+            <button type="button" onclick="selectSingle(this, 'hand-group')">左打ち</button>
+        </div>
+
+        <div class="label">ゴルフ歴 / 平均スコア<span class="optional-badge">任意</span></div>
+        <div style="display: flex; gap: 10px;">
+            <input type="text" id="experience" placeholder="歴：例 3年" style="flex:1;">
+            <input type="text" id="score" placeholder="スコア：例 100" style="flex:1;">
+        </div>
+
+        <div class="label">今回のご利用目的<span class="required-badge">必須(複数可)</span></div>
+        <div class="selection-group" id="purpose-group">
+            <button type="button" onclick="selectMulti(this)">無料トライアル</button>
+            <button type="button" onclick="selectMulti(this)">会員入会希望</button>
+            <button type="button" onclick="selectMulti(this)">個人練習</button>
+            <button type="button" onclick="selectMulti(this)">レッスン受講</button>
+            <button type="button" onclick="selectMulti(this)">飲食・パーティー</button>
+            <button type="button" onclick="selectMulti(this)">その他</button>
+        </div>
+
+        <div class="label">現在のゴルフのお悩み<span class="optional-badge">任意(複数可)</span></div>
+        <div class="selection-group" id="worry-group">
+            <button type="button" onclick="selectMulti(this)">スライス</button>
+            <button type="button" onclick="selectMulti(this)">フック</button>
+            <button type="button" onclick="selectMulti(this)">飛距離</button>
+            <button type="button" onclick="selectMulti(this)">アプローチ</button>
+            <button type="button" onclick="selectMulti(this)">パター</button>
+            <button type="button" onclick="selectMulti(this)">特になし(初心者)</button>
+        </div>
+
+        <div class="label">当店を知ったきっかけ<span class="optional-badge">任意</span></div>
+        <div class="selection-group" id="referral-group">
+            <button type="button" onclick="selectSingle(this, 'referral-group')">Instagram</button>
+            <button type="button" onclick="selectSingle(this, 'referral-group')">Web検索</button>
+            <button type="button" onclick="selectSingle(this, 'referral-group')">看板・通りがかり</button>
+            <button type="button" onclick="selectSingle(this, 'referral-group')">知人の紹介</button>
+        </div>
+
+        <div class="label">その他ご質問・ご要望<span class="optional-badge">任意</span></div>
+        <textarea id="remarks" placeholder="例：左打席の空き状況を知りたい、クラブレンタルの有無など"></textarea>
+
+        <button class="submit-button" onclick="submitForm()">送信</button>
+    </div>
+
+    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+    <script>
+        // LIFF初期化
+        document.addEventListener('DOMContentLoaded', function () {
+            liff.init({
+                liffId: '2005254357-zKma9BZk' 
+            }).then(() => {
+                console.log('LIFF初期化成功');
+            }).catch((err) => {
+                console.error('LIFF初期化失敗', err);
+            });
+        });
+
+        // 単一選択（利き手、きっかけなど）
+        function selectSingle(element, groupId) {
+            const container = document.getElementById(groupId);
+            const buttons = container.querySelectorAll('button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // 複数選択（目的、悩みなど）
+        function selectMulti(element) {
+            element.classList.toggle('active');
+        }
+
+        // 選択されたボタンのテキストを取得するヘルパー関数
+        function getSelectedText(groupId, isMulti = false) {
+            const container = document.getElementById(groupId);
+            const activeButtons = container.querySelectorAll('button.active');
+            if (activeButtons.length === 0) return '';
+            
+            if (isMulti) {
+                return Array.from(activeButtons).map(btn => btn.innerText).join('、');
+            } else {
+                return activeButtons[0].innerText;
+            }
+        }
+
+        // 送信処理
+        function submitForm() {
+            // 値の取得
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const experience = document.getElementById('experience').value;
+            const score = document.getElementById('score').value;
+            const remarks = document.getElementById('remarks').value;
+
+            // ボタン選択値の取得
+            const hand = getSelectedText('hand-group', false);
+            const purposes = getSelectedText('purpose-group', true);
+            const worries = getSelectedText('worry-group', true);
+            const referral = getSelectedText('referral-group', false);
+
+            // バリデーション
+            if (!name) { alert('「お名前」を入力してください。'); return; }
+            if (!phone) { alert('「お電話番号」を入力してください。'); return; }
+            if (!hand) { alert('「利き手」を選択してください（打席案内に必要です）。'); return; }
+            if (!purposes) { alert('「ご利用目的」を1つ以上選択してください。'); return; }
+
+            // 送信メッセージの作成
+            const msg = `【カウンセリングシート】\n` +
+                        `\n[お名前]\n${name}` +
+                        `\n\n[電話番号]\n${phone}` +
+                        `\n\n[利き手]\n${hand}` +
+                        `\n\n[ゴルフ歴/スコア]\n歴: ${experience || '-'} / スコア: ${score || '-'}` +
+                        `\n\n[利用目的]\n${purposes}` +
+                        `\n\n[現在の悩み]\n${worries || '特になし'}` +
+                        `\n\n[きっかけ]\n${referral || '回答なし'}` +
+                        `\n\n[その他・要望]\n${remarks || 'なし'}`;
+
+            // LINEトークへ送信
+            if (!liff.isInClient()) {
+                alert('LINEアプリ外のため送信できませんが、以下の内容で作成されました:\n\n' + msg);
+            } else {
+                liff.sendMessages([{
+                    type: 'text',
+                    text: msg
+                }]).then(() => {
+                    alert('送信しました。スタッフがご案内いたします。');
+                    liff.closeWindow();
+                }).catch((err) => {
+                    console.error('送信エラー', err);
+                    alert('送信に失敗しました。');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
